@@ -6,12 +6,98 @@
 
 using namespace std;
 
+
+bool isExist(int s, int a, int b)
+{
+	bool bo = false;
+	if (a < s-1 && b >=0)
+		bo = true;
+	return bo;
+}
+
 void main()
 {
-	int  a [] = {1,1,1,4,5,6,7,8,9,10,11,12,13};
-	int beg=0, en=0, l1 = 0,l2=0,cn =0 ;
-	
-	for (int i = 0; i < sizeof(a) / 4; i++)
+	char  s [] = "5454555555211112";
+	int beg=0, en=0, l1 = 0,max=0,count =1 ;
+	char  a = ' ', b = ' ';
+	int raz = sizeof(s);
+	for (int i = 0; i < raz; i++)
+	{
+		
+		if (i != 0 && i != (raz) - 2) // 1 и последний не учитываются
+		{
+			if (s[i] == s[i + 1] && i + 1< (raz - 1))
+			{
+				a = s[i + 1];
+				b = s[i];
+				while (a == b && isExist(raz, i + count, i - count + 1)) // ищем палендром
+				{
+					count++;
+					a = s[i + count];
+					b = s[i - count + 1];			
+				}
+				count--;
+				if (max < count)
+				{
+					max = count;
+					beg = i - count+1;
+					en = i + count;
+					l1 = 1;
+				}
+				count = 1;
+			}
+			if (s[i] == s[i - 1] && (i - 1 > 0))
+			{
+				a = s[i];
+				b = s[i-1];
+				while (a == b && isExist(raz, i + count-1, i - count)) // ищем палендром
+				{
+					count++;
+					a = s[i + count - 1];
+					b = s[i - count];
+				}
+				count--;
+				if (max < count)
+				{
+					max = count;
+					beg = i - count;
+					en = i + count-1;
+					l1 = 2;
+				}
+				count = 1;
+			}
+			if ((i - 1 > 0) && i + 1 < (raz - 2) && s[i + 1] == s[i - 1])
+			{
+				a = s[i + 1];
+				b = s[i - 1];
+				while (a == b && isExist(raz, i + count, i - count)) // ищем палендром
+				{
+					count++;
+					a = s[i + count];
+					b = s[i - count];
+				}
+				count--;
+				if (max < count)
+				{
+					max = count;
+					beg = i - count ;
+					en = i + count ;
+					l1 = 3;
+				}
+				count = 1;
+			}
+		}
+	}
+	for (int i = 0; i < raz; i++)//вывод
+	{
+		if (i >= beg && i <= en && beg != en)
+		{
+			printf_s("%c ", s[i]);
+		}
+	}
+	printf_s("\n%d", l1);
+
+	/*for (int i = 0; i < sizeof(a) / 4; i++)
 	{
 		if (i != 0 && i != (sizeof(a) / 4) - 1)// Проверяем на 1 и последний элемент
 		{
@@ -42,12 +128,7 @@ void main()
 
 			}
 
-/*			for (int j = 1; j <= sizeof(a) / 8; j++)
-			{
-
-
-			}
-			*/		
+	
 			if (l1 > l2) // сравниваем подмассивы
 			{
 				if (cn == 0)
@@ -84,7 +165,8 @@ void main()
 		{
 			printf_s("%d ", a[i]);
 		}
-	}
+	}*/
+	
 
 }
 
